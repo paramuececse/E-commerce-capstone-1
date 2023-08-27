@@ -1,0 +1,47 @@
+package Com.BestBuyDriverPackage;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.Browser.webdriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+public class BestBuyDriverClass {
+	
+	public static WebDriver driver;
+   public  WebDriver DriverMethod() {
+	   WebDriverManager.chromedriver().setup();
+		 driver = new ChromeDriver();
+    	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+	 driver.manage().window().maximize();
+	 driver.get("https://www.bestbuy.com/");
+	 
+	 return  driver;
+	 
+}
+   public String takeScreenshot(String testName,WebDriver driver) throws IOException{
+		File srcScreenshot=((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		String srcScreenShotFilepath=	System.getProperty("user.dir")+"\\Screenshots\\"+testName+".png";
+		FileUtils.copyFile(srcScreenshot,new File( srcScreenShotFilepath));
+		return srcScreenShotFilepath;
+		}
+
+
+	public static void SwitchWindow() {
+		String parentwindow=driver.getWindowHandle();
+	  Set<String> windowhandles=driver.getWindowHandles();
+	  windowhandles.size();
+	  for(String childwindow:windowhandles) {
+		  if(!childwindow.contentEquals(parentwindow)) {
+			  driver.switchTo().window(childwindow);
+			  break;
+		  }}}
+
+
+}
